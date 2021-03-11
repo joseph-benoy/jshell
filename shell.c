@@ -36,7 +36,7 @@ char **parse_command(char *line)
 		token = strtok(NULL, " \t\n\r\a");
 		if(postion>=64)
 		{
-			realloc(arg_buff,buffer_size*sizeof(char*));
+			arg_buff = realloc(arg_buff,buffer_size*sizeof(char*));
 			if(!arg_buff)
 			{
 				perror("JShell error");
@@ -47,25 +47,94 @@ char **parse_command(char *line)
     return arg_buff;
 }
 
+//JShell cd command
+int jshell_cd(char **arg_buff)
+{
+	printf("%s",arg_buff[1]);
+}
+
+//JShell exit command
+int jshell_exit()
+{
+	exit(0);
+}
+
+int jshell_help()
+{
+	printf("help\n");
+}
+
+int command_identifier(char *command)
+{
+	if(strcmp(command,"cd"))
+	{
+		return 1;
+	}
+	else if(strcmp(command,"exit"))
+	{
+		return 2;
+	}
+	else if(strcmp(command,"help"))
+	{
+		return 3;
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //execute command
 int exec_command(char **arg_buffer)
 {
-	int pid;
-	pid = fork();
-	if(pid==0)
+	int command_type = command_identifier(arg_buffer[0]);
+	if(command_type==1)
 	{
-		if(execvp(arg_buffer[0],arg_buffer)==-1)
-		{
-			perror("JShell Error");
-		}
+		jshell_cd(arg_buffer);
 	}
-	else if(pid<0)
+	else if(command_type==2)
 	{
-		perror("JShell error");
+		jshell_exit();
+	}
+	else if(command_type==3)
+	{
+		jshell_help();
 	}
 	else
 	{
-		wait(NULL);
+		int pid;
+		pid = fork();
+		if(pid==0)
+		{
+			if(execvp(arg_buffer[0],arg_buffer)==-1)
+			{
+				perror("JShell Error");
+			}
+		}
+		else if(pid<0)
+		{
+			perror("JShell error");
+		}
+		else
+		{
+			wait(NULL);
+		}
 	}
 	return 1;
 }
