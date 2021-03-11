@@ -8,4 +8,4 @@ gcc shell.c -o jshell -lreadline
 ./jshell
 ```
 
-Also can be installed using ```dpkg -i jshell.deb``` command.
+Also can be installed using ```sudo dpkg -i jshell.deb``` command.
