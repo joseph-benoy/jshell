@@ -50,7 +50,7 @@ char **parse_command(char *line)
 //JShell cd command
 int jshell_cd(char **arg_buff)
 {
-	printf("%s",arg_buff[1]);
+	chdir(arg_buff[1]);
 }
 
 //JShell exit command
@@ -66,15 +66,15 @@ int jshell_help()
 
 int command_identifier(char *command)
 {
-	if(strcmp(command,"cd"))
+	if(strcmp(command,"cd")==0)
 	{
 		return 1;
 	}
-	else if(strcmp(command,"exit"))
+	else if(strcmp(command,"exit")==0)
 	{
 		return 2;
 	}
-	else if(strcmp(command,"help"))
+	else if(strcmp(command,"help")==0)
 	{
 		return 3;
 	}
