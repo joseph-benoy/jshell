@@ -7,3 +7,5 @@ Linux shell interpreter written in C.
 gcc shell.c -o jshell -lreadline
 ./jshell
 ```
+
+Also can be install using ```dpkg -i jshell.deb``` command.
