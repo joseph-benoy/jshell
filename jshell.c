@@ -7,11 +7,27 @@
 #include<readline/readline.h>
 #include<readline/history.h>
 
+//prompt construction function
+void get_prompt()
+{
+	char user[50];
+	char cwd[PATH_MAX];
+	getcwd(cwd,PATH_MAX);
+	getlogin_r(user,50);
+	char hostname[HOST_NAME_MAX];
+	gethostname(hostname,HOST_NAME_MAX);
+	strcat(user,"@");
+	strcat(user,hostname);
+	strcat(user,":");
+	strcat(user,cwd);
+	printf("%s",user);
+}
 //reading the command
 char* read_command()
 {
 	char *command_buffer;
-	command_buffer = readline(">");
+	get_prompt();
+	command_buffer = readline("> ");
 	if(strlen(command_buffer)>0)
 	{
 		add_history(command_buffer);
@@ -56,6 +72,7 @@ int jshell_cd(char **arg_buff)
 //JShell exit command
 int jshell_exit()
 {
+	printf("Stopping jobs......\nExiting.....\n");
 	exit(0);
 }
 
@@ -80,26 +97,6 @@ int command_identifier(char *command)
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //execute command
 int exec_command(char **arg_buffer)
 {
